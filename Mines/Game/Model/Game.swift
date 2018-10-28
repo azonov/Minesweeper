@@ -1,7 +1,6 @@
 struct Game {
     
     var field: Field
-    var isOver = false
     
     private let initialLocation: Point
     private let bombsCount: Int
@@ -20,9 +19,6 @@ struct Game {
     }
     
     mutating func revealCellAt(point: Point) {
-        if field[point]?.type == .bomb {
-            isOver = true
-        }
         openedPoints.insert(point)
         revealNeighbors(point: point)
     }

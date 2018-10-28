@@ -1,20 +1,24 @@
-//
-//  GameModel.swift
-//  Mines
-//
-//  Created by Andrey Zonov on 01/10/2018.
-//  Copyright © 2018 Andrey Zonov. All rights reserved.
-//
-
-import Foundation
-
 class GameModel {
     
-    private(set) var game: Game?
-    
-    var configuration: Difficulty.Configuration {
-        return Difficulty.selected.configuration
+    struct Configuration {
+        var size: Size
+        var bombsCount: Int
+        
+        static let beginner = Configuration(
+            size: Size(width: 9, height: 9),
+            bombsCount: 10)
+        
+        static let intermediate = Configuration(
+            size: Size(width: 16, height: 16),
+            bombsCount: 40)
+        
+        static let advanced = Configuration(
+            size: Size(width: 30, height: 16),
+            bombsCount: 99)
     }
+    
+    private(set) var game: Game?
+    var configuration: Configuration = .beginner
     
     func revealCellAt(point: Point) {
         if game == nil {
@@ -23,23 +27,6 @@ class GameModel {
                         bombsCount: configuration.bombsCount)
         }
         game?.revealCellAt(point: point)
-    }
-    
-    func cellTypeAtCoordinates(_ coordinates: Point) -> CellType {
-        guard var game = game, let cell = game.field[coordinates] else { return .closed }
-        
-        if game.isOver || game.openedPoints.contains(coordinates) {
-            switch cell.type {
-            case .bomb:
-                return .bomb
-            case .empty:
-                return .empty
-            case .label(let value):
-                return .label(value: value)
-            }
-        } else {
-            return .closed
-        }
     }
     
     func restart() {

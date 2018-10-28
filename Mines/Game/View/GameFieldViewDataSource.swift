@@ -19,3 +19,8 @@ protocol GameFieldViewDataSource: class {
     var size: Size { get }
     func cellTypeAtCoordinates(_ coordinates: Point) -> CellType
 }
+
+protocol GameFieldViewDelegate: class {
+    
+    func didSelectCellAt(point: Point)
+}
