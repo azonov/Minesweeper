@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Settings View Controller-->
+        <scene sceneID="kSE-pG-vWn">
+            <objects>
+                <tableViewController id="ekQ-zr-jvs" customClass="SettingsViewController" customModule="Mines" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="G8S-pN-RGs">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="lmI-6j-n9G">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lmI-6j-n9G" id="pdI-7d-Rr0">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ekQ-zr-jvs" id="9tF-64-kFg"/>
+                            <outlet property="delegate" destination="ekQ-zr-jvs" id="o8P-GB-hKq"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="M8p-4X-XVY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1022" y="-358"/>
+        </scene>
+        <!--Game Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="GameController" customModule="Mines" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="trN-L1-fL8">
+                                <rect key="frame" x="0.0" y="116" width="375" height="463"/>
+                                <color key="backgroundColor" red="0.89803921568627454" green="0.89803921568627454" blue="0.89803921568627454" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="iJw-n6-kDi"/>
+                                </connections>
+                            </scrollView>
+                            <navigationBar contentMode="scaleToFill" translucent="NO" largeTitles="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hOl-ke-aSP">
+                                <rect key="frame" x="0.0" y="20" width="375" height="96"/>
+                                <items>
+                                    <navigationItem title="Сапер" id="unL-z2-L9H">
+                                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="8VF-ex-CSR">
+                                            <connections>
+                                                <segue destination="ekQ-zr-jvs" kind="popoverPresentation" popoverAnchorBarButtonItem="8VF-ex-CSR" id="PSp-hH-evF">
+                                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                                </segue>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="86N-zZ-4pw">
+                                <rect key="frame" x="0.0" y="579" width="375" height="44"/>
+                                <items>
+                                    <barButtonItem systemItem="refresh" id="Oj7-P5-RoS">
+                                        <connections>
+                                            <action selector="startNewGameTapped" destination="BYZ-38-t0r" id="skw-a0-Fre"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="86N-zZ-4pw" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="2yp-3h-skt"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="trN-L1-fL8" secondAttribute="trailing" id="6bG-aN-hRC"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="86N-zZ-4pw" secondAttribute="bottom" id="9qN-9n-EkW"/>
+                            <constraint firstItem="hOl-ke-aSP" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="AQf-ya-GIb"/>
+                            <constraint firstItem="trN-L1-fL8" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="DWw-uA-FEw"/>
+                            <constraint firstItem="86N-zZ-4pw" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="baR-NL-htU"/>
+                            <constraint firstItem="trN-L1-fL8" firstAttribute="top" secondItem="hOl-ke-aSP" secondAttribute="bottom" id="dxo-MN-HvW"/>
+                            <constraint firstItem="hOl-ke-aSP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="gx9-UM-GXG"/>
+                            <constraint firstItem="hOl-ke-aSP" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="jAi-Li-p3i"/>
+                            <constraint firstItem="86N-zZ-4pw" firstAttribute="top" secondItem="trN-L1-fL8" secondAttribute="bottom" id="mx0-Ej-aez"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="scrollView" destination="trN-L1-fL8" id="nQE-xC-bDC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="131.78410794602701"/>
+        </scene>
+    </scenes>
+</document>
