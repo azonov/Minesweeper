@@ -10,14 +10,16 @@ import UIKit
 
 class GameController: UIViewController {
     
-    @IBOutlet private weak var gameFieldView: GameFieldView!
+    private var gameFieldView = GameFieldView()
+    @IBOutlet weak var scrollView: UIScrollView!
     private let gameModel = GameModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         gameFieldView.dataSource = self
-        gameFieldView.delegate = self
+        
+        scrollView.addSubview(gameFieldView)
     }
     
     @IBAction func handleNewGameAction() {

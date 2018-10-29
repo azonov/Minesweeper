@@ -4,67 +4,63 @@ class GameFieldView: UIView {
     
     weak var dataSource: GameFieldViewDataSource? {
         didSet {
-            setupField()
+            setupView()
             reloadData()
         }
     }
     
-    weak var delegate: GameFieldViewDelegate?
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        guard let fieldSize = dataSource?.size,
-            let cells = subviews as? [CellView] else { return }
-        
-        let dimension = min(bounds.width, bounds.height) / CGFloat(fieldSize.width)
-        let cellSize = CGSize(width: dimension, height: dimension)
-        let diff = abs(bounds.width - bounds.height) / 2
-        var movX: CGFloat = 0
-        var movY: CGFloat = 0
-        if bounds.width > bounds.height {
-            movX = diff
-        } else {
-            movY = diff
-        }
-        for cell in cells {
-            let origin = CGPoint(x: movX + CGFloat(cell.point.x) * dimension,
-                                 y: movY + CGFloat(cell.point.y) * dimension)
-            cell.frame = CGRect(origin: origin, size: cellSize)
-        }
+    var size: CGFloat {
+        return UIFont.preferredFont(forTextStyle: .largeTitle).lineHeight
     }
     
-    private func setupField() {
+    private func setupView() {
         guard let fieldSize = dataSource?.size else { return }
         
-        subviews.forEach { $0.removeFromSuperview() }
-        let view = UIView()
-        let rect = CGRect(x: 20, y: 20, width: 30, height: 50)
-        let label = UILabel(frame: rect)
-        label.text = "Лекция 3"
-        view.addSubview(label)
+        translatesAutoresizingMaskIntoConstraints = false
+        
+        widthAnchor.constraint(equalToConstant: CGFloat(fieldSize.width) * size).isActive = true
+        heightAnchor.constraint(equalToConstant: CGFloat(fieldSize.height) * size).isActive = true
+        
+        for subview in subviews {
+            subview.removeFromSuperview()
+        }
         for x in 0..<fieldSize.width {
             for y in 0..<fieldSize.height {
-                let cell = CellView(point: Point(x: x, y: y))
-                cell.addTarget(self,
-                               action: #selector(handleTouchUpInsideAction),
-                               for: .touchUpInside)
+                let point = Point(x: x, y: y)
+                
+                let cell = CellView(point: point)
+                
                 addSubview(cell)
+                
+                let xOffset = CGFloat(x) * size
+                let yOffset = CGFloat(y) * size
+                
+                cell.widthAnchor.constraint(equalToConstant: size).isActive = true
+                cell.heightAnchor.constraint(equalToConstant: size).isActive = true
+                
+                cell.leftAnchor.constraint(equalTo: self.leftAnchor,
+                                           constant: xOffset).isActive = true
+                cell.topAnchor.constraint(equalTo: self.topAnchor,
+                                          constant: yOffset).isActive = true
             }
         }
     }
     
     func reloadData() {
+        if dataSource?.size.area != subviews.count {
+            for subview in subviews {
+                subview.removeFromSuperview()
+            }
+            constraints.forEach(removeConstraint)
+        }
+        
         guard let dataSource = dataSource,
-            let cells = subviews as? [CellView] else { return }
+            let cells = subviews as? [CellView] else {
+            return
+        }
         
         for cell in cells {
             cell.cellType = dataSource.cellTypeAtCoordinates(cell.point)
         }
-    }
-    
-    @objc
-    private func handleTouchUpInsideAction(_ cell: CellView) {
-        delegate?.didSelectCellAt(point: cell.point)
     }
 }
