@@ -14,12 +14,21 @@ class GameFieldView: UIView {
     }
     
     private func setupView() {
-        guard let fieldSize = dataSource?.size else { return }
+        guard let superview = superview,
+            let fieldSize = dataSource?.size
+        else {
+            return
+        }
         
         translatesAutoresizingMaskIntoConstraints = false
-        
-        widthAnchor.constraint(equalToConstant: CGFloat(fieldSize.width) * size).isActive = true
-        heightAnchor.constraint(equalToConstant: CGFloat(fieldSize.height) * size).isActive = true
+        NSLayoutConstraint.activate([
+            widthAnchor.constraint(equalToConstant:CGFloat(fieldSize.width) * size),
+            heightAnchor.constraint(equalToConstant: CGFloat(fieldSize.height) * size),
+            topAnchor.constraint(equalTo: superview.topAnchor),
+            bottomAnchor.constraint(equalTo: superview.bottomAnchor),
+            leftAnchor.constraint(equalTo: superview.leftAnchor),
+            rightAnchor.constraint(equalTo: superview.rightAnchor),
+        ])
         
         for subview in subviews {
             subview.removeFromSuperview()

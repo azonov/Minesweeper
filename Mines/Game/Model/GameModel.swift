@@ -18,7 +18,7 @@ class GameModel {
     }
     
     private(set) var game: Game?
-    var configuration: Configuration = .beginner
+    var configuration: Configuration = .advanced
     
     func revealCellAt(point: Point) {
         if game == nil {

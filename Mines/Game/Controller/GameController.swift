@@ -17,14 +17,29 @@ class GameController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        gameFieldView.dataSource = self
-        
         scrollView.addSubview(gameFieldView)
+        gameFieldView.dataSource = self
+        view.layoutSubviews()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        updateMinZoomScaleForSize(view.bounds.size)
     }
     
     @IBAction func handleNewGameAction() {
         gameModel.restart()
         gameFieldView.reloadData()
+    }
+    
+    private func updateMinZoomScaleForSize(_ size: CGSize) {
+        let widthScale = size.width / gameFieldView.bounds.width
+        let heightScale = size.height / gameFieldView.bounds.height
+        let minScale = min(widthScale, heightScale)
+        
+        scrollView.minimumZoomScale = minScale
+        scrollView.zoomScale = minScale
     }
 }
 
@@ -57,5 +72,22 @@ extension GameController: GameFieldViewDelegate {
     func didSelectCellAt(point: Point) {
         gameModel.revealCellAt(point: point)
         gameFieldView.reloadData()
+    }
+}
+
+extension GameController: UIScrollViewDelegate {
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return gameFieldView
+    }
+    
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        let offsetX = max((scrollView.bounds.width - scrollView.contentSize.width) * 0.5, 0)
+        let offsetY = max((scrollView.bounds.height - scrollView.contentSize.height) * 0.5, 0)
+        
+        scrollView.contentInset = UIEdgeInsets(top: offsetY,
+                                               left: offsetX,
+                                               bottom: 0,
+                                               right: 0)
     }
 }
